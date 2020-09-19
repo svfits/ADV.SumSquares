@@ -10,12 +10,12 @@ namespace ADV.SumSquares.Models
         public const string Parameters = "Parameters";
 
         /// <summary>
-        ////Минимальное значение
+        ////Минимальное значение числа
         /// </summary>
         public int MinValue { get; set; }
 
         /// <summary>
-        /// Максимальное значение
+        /// Максимальное значение числа
         /// </summary>
         public int MaxValue { get; set; }
 
@@ -23,5 +23,15 @@ namespace ADV.SumSquares.Models
         /// Максимальное количество аргументов
         /// </summary>
         public int MaxArguments { get; set; }
+
+        /// <summary>
+        /// Минимальная задержка
+        /// </summary>
+        public int MinPause { get; set; }
+
+        /// <summary>
+        /// Максимальная задержка
+        /// </summary>
+        public int MaxPause { get; set; }
     }
 }

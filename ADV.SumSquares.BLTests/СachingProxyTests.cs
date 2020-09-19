@@ -12,18 +12,23 @@ namespace ADV.SumSquares.BL.Tests
     {
         public СachingProxyTests()
         {
-            this.NumbersMock = Enumerable.Range(0, 100).ToList();
+            this.NumbersMock = Enumerable.Range(0, 10).ToList();
+            this.Random = new Random();
         }
 
         private List<int> NumbersMock { get; }
+        private Random Random { get; }
+
+        private const int MinPause = 1340;
+        private const int MaxPause = 7340;
 
         [TestMethod()]
         public void GetСachingDataTest()
         {
-            СachingProxy сachingProxy = new СachingProxy(NumbersMock);
+            СachingCalcProxy сachingProxy = new СachingCalcProxy(NumbersMock, Random, MinPause, MaxPause);
             var data = сachingProxy.GetСachingData();
 
-            Assert.Fail();
+            Assert.IsFalse(data != 285);
         }
     }
 }

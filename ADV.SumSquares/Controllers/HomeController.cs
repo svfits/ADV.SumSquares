@@ -16,6 +16,8 @@ namespace ADV.SumSquares.Controllers
     {
         private readonly ParametersOptions _options;
 
+        private readonly Random random = new Random();
+
         public HomeController(IOptions<ParametersOptions> options)
         {
             _options = options.Value;
