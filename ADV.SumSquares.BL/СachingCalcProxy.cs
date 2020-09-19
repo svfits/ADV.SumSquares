@@ -62,3 +62,4 @@ namespace ADV.SumSquares.BL
         }
     }
 }
+
