@@ -6,26 +6,38 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ADV.SumSquares.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace ADV.SumSquares.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ParametersOptions _options;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
+        public HomeController(IOptions<ParametersOptions> options)
+        {            
+            _options = options.Value;
         }
 
-        public IActionResult Index()
+        [AcceptVerbs("Get", "Post")]
+        public IActionResult CheckNumber(int Numbers)
         {
-            return View();
+            if (Numbers < _options.MinValue || Numbers > _options.MaxValue)
+            {
+                return Json(false);
+            }
+        
+            return Json(true);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Number()
         {
-            return View();
+            var numberViewModel = new NumberViewModel
+            {
+                ParametersOptions = _options
+            };
+            return View(numberViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

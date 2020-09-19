@@ -1,0 +1,34 @@
+﻿@model ADV.SumSquares.Models.NumberViewModel
+
+@{
+    ViewData["Title"] = "Сумма квадратов чисел";
+}
+
+<h1>Сумма квадратов чисел</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="OperationsOfNumber">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @for (int i = 0; i < Model.ParametersOptions.MaxArguments; i++)
+            {
+                <div class="form-group">                    
+                    @{ var id = "Number" + i; }
+                    <input asp-for="Numbers" class="form-control" id="@id" />
+                    <span asp-validation-for="Numbers" class="text-danger"></span>
+                </div>
+            }
+        </form>
+        <div class="form-group">
+            <input type="submit" value="Выполнить" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

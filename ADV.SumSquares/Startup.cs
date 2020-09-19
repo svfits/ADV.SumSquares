@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ADV.SumSquares.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,8 @@ namespace ADV.SumSquares
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ParametersOptions>(Configuration.GetSection(ParametersOptions.Parameters));
+
             services.AddControllersWithViews();
         }
 
@@ -46,7 +49,7 @@ namespace ADV.SumSquares
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Number}/{id?}");
             });
         }
     }
