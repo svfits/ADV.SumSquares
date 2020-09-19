@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="OperationsOfNumber">
+        <form asp-action="OperationsOfNumber" id="form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             @for (int i = 0; i < Model.ParametersOptions.MaxArguments; i++)
@@ -22,12 +22,10 @@
             }
         </form>
         <div class="form-group">
-            <input type="submit" value="Выполнить" class="btn btn-primary" />
+            <input type="submit" id="execute" value="Выполнить" class="btn btn-primary" />
         </div>
     </div>
 </div>
-
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

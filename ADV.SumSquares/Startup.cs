@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using ADV.SumSquares.Models;
 using Microsoft.AspNetCore.Builder;
@@ -23,9 +25,7 @@ namespace ADV.SumSquares
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<ParametersOptions>(Configuration.GetSection(ParametersOptions.Parameters));
-
-            services.AddControllersWithViews();
+            services.Configure<ParametersOptions>(Configuration.GetSection(ParametersOptions.Parameters));           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,8 +42,6 @@ namespace ADV.SumSquares
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

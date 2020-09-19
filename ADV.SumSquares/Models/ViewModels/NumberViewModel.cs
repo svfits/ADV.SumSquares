@@ -12,7 +12,7 @@ namespace ADV.SumSquares.Models
     {
         [Required(ErrorMessage = "Должны обязательно указаны числовые значения")]
         [Remote(action: "CheckNumber", controller: "Home", ErrorMessage = "Такое число невозможно использовать")]
-        public int[] Numbers { get; set; }
+        public int Numbers { get; set; }
 
         public ParametersOptions ParametersOptions { get; set; }
     }

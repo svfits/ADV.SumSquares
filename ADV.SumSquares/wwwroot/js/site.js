@@ -1,4 +1,18 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(function () {
+    $('#execute').on('click', function () {
+        var valueNumber = $('#form').serialize();
+        $.ajax({
+            url: 'Home/CalculationSquares',
+            type: 'POST',
+            data: valueNumber,
+            success: function (data) {
+                console.info("Что то пришло");
+            },
+            error: function (data) {
+                console.error("Ошибка произошла при получении результатов расчета " + data);
+                ;
+            }
+        });
+    });
+});
 
-// Write your JavaScript code.
