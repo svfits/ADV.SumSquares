@@ -13,8 +13,8 @@ namespace ADV.SumSquares.BL.Tests
     {
         public СachingProxyTests()
         {
-            this.NumbersMock = Enumerable.Range(0, 10).ToList();
-            this.Random = new Random();
+            NumbersMock = Enumerable.Range(0, 10).ToList();
+            Random = new Random();
         }
 
         private List<int> NumbersMock { get; }
@@ -44,13 +44,13 @@ namespace ADV.SumSquares.BL.Tests
         }
 
         /// <summary>
-        /// Получение данных из "Прогретого кеша"
+        /// Получение данных из "Прогретого кеша" полное совпадение кеша и данных
         /// </summary>
         [TestMethod()]
-        public void GetСachingData_HotData_Test()
+        public void GetСachingData_HotData_TrueTest()
         {
             СachingCalcProxy сachingProxy = new СachingCalcProxy(Random, MinPause, MaxPause);
-            
+
             сachingProxy.GetСachingData(NumbersMock);
 
             Stopwatch stopWatch = new Stopwatch();
@@ -61,10 +61,31 @@ namespace ADV.SumSquares.BL.Tests
             stopWatch.Stop();
             var timeElapsed = stopWatch.ElapsedMilliseconds;
 
-            Debug.WriteLine("Было потрачено времени после прогрева кеша " + timeElapsed);
-
             Assert.IsTrue(data == 285);
             Assert.IsTrue(timeElapsed < MinPause);
+        }
+
+        /// <summary>
+        /// Получение данных из не полного кеша
+        /// </summary>
+        [TestMethod()]
+        public void GetСachingData_NotComplectedData_TrueTest()
+        {
+            СachingCalcProxy сachingProxy = new СachingCalcProxy(Random, MinPause, MaxPause);
+
+            var numberMock = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+            сachingProxy.GetСachingData(NumbersMock);
+
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            var data = сachingProxy.GetСachingData(numberMock);
+
+            stopWatch.Stop();
+            var timeElapsed = stopWatch.ElapsedMilliseconds;
+
+            Assert.IsTrue(data == 204);
+            Assert.IsTrue(timeElapsed < MaxPause);
         }
     }
 }
