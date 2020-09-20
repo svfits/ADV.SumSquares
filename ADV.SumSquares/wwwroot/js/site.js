@@ -1,6 +1,8 @@
 ﻿$(function () {
     $('#execute').on('click', function () {
-        var valueNumber = $('#form').serialize();
+        
+        var valueNumber = $('input[name$="Numbers"]').serializeArray(); 
+
         $.ajax({
             url: 'Home/CalculationSquares',
             type: 'POST',

@@ -47,21 +47,20 @@ namespace ADV.SumSquares.Controllers
         /// <param name="Numbers"></param>
         /// <returns></returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult CalculationSquares([FromForm] List<int> Numbers)
+        public IActionResult CalculationSquares(List<int> Numbers)
         {
             var erMaxVal = Numbers.Where(qw => qw > _options.MaxValue).Count() > 0;
 
             if (erMaxVal)
             {
-                return Json("Превышено максимальное значение числа " + _options.MaxValue );
+                return Json("Превышено максимальное значение числа " + _options.MaxValue);
             }
 
             var erMinVal = Numbers.Where(qw => qw < _options.MinValue).Count() > 0;
 
             if (erMinVal)
             {
-                return Json("Меньше минимального значения числа " + _options.MinValue );
+                return Json("Меньше минимального значения числа " + _options.MinValue);
             }
 
             var erNumCount = Numbers.Count() > _options.MaxArguments;
