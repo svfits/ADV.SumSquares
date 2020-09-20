@@ -11,16 +11,15 @@ namespace ADV.SumSquares.BL.Tests
     [TestClass()]
     public class СachingProxyTests
     {
-        public СachingProxyTests()
+        [TestInitialize]
+        public void InitTest()
         {
             NumbersMock = Enumerable.Range(0, 10).ToList();
-            Random = new Random();
+            сachingProxy = new СachingCalcProxy(new Random(), MinPause, MaxPause);
         }
 
-        private List<int> NumbersMock { get; }
-
-        private Random Random { get; }
-
+        private СachingCalcProxy сachingProxy;
+        private List<int> NumbersMock;
         private const int MinPause = 1340;
         private const int MaxPause = 7340;
 
@@ -30,16 +29,15 @@ namespace ADV.SumSquares.BL.Tests
         [TestMethod()]
         public void GetСachingData_СoldData_Test()
         {
-            СachingCalcProxy сachingProxy = new СachingCalcProxy(Random, MinPause, MaxPause);
-
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-            var data = сachingProxy.GetСachingData(NumbersMock);
+            var (Total, History) = сachingProxy.GetСachingData(NumbersMock);
             stopWatch.Stop();
 
             var timeElapsed = stopWatch.ElapsedMilliseconds;
 
-            Assert.IsTrue(data == 285);
+            Assert.IsTrue(Total == 285);
+            Assert.IsTrue(History.Count() > 0);
             Assert.IsFalse(timeElapsed > MaxPause);
         }
 
@@ -49,19 +47,18 @@ namespace ADV.SumSquares.BL.Tests
         [TestMethod()]
         public void GetСachingData_HotData_TrueTest()
         {
-            СachingCalcProxy сachingProxy = new СachingCalcProxy(Random, MinPause, MaxPause);
-
             сachingProxy.GetСachingData(NumbersMock);
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            var data = сachingProxy.GetСachingData(NumbersMock);
+            var (Total, History) = сachingProxy.GetСachingData(NumbersMock);
 
             stopWatch.Stop();
             var timeElapsed = stopWatch.ElapsedMilliseconds;
 
-            Assert.IsTrue(data == 285);
+            Assert.IsTrue(Total == 285);
+            Assert.IsTrue(History.Count() > 0);
             Assert.IsTrue(timeElapsed < MinPause);
         }
 
@@ -71,20 +68,19 @@ namespace ADV.SumSquares.BL.Tests
         [TestMethod()]
         public void GetСachingData_NotComplectedData_TrueTest()
         {
-            СachingCalcProxy сachingProxy = new СachingCalcProxy(Random, MinPause, MaxPause);
-
             var numberMock = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
             сachingProxy.GetСachingData(NumbersMock);
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            var data = сachingProxy.GetСachingData(numberMock);
+            var (Total, History) = сachingProxy.GetСachingData(numberMock);
 
             stopWatch.Stop();
             var timeElapsed = stopWatch.ElapsedMilliseconds;
 
-            Assert.IsTrue(data == 204);
+            Assert.IsTrue(Total == 204);
+            Assert.IsTrue(History.Count() > 0);
             Assert.IsTrue(timeElapsed < MaxPause);
         }
     }

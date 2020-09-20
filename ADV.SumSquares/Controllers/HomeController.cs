@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using ADV.SumSquares.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using ADV.SumSquares.BL;
+using System.Xml.Schema;
 
 namespace ADV.SumSquares.Controllers
 {
@@ -48,8 +50,17 @@ namespace ADV.SumSquares.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CalculationSquares([FromForm] List<int> Numbers)
         {
-            Debug.WriteLine(Numbers.FirstOrDefault());
-            return View();
+            _ = Numbers.Where(qw => qw > _options.MaxValue) ?? throw new ArgumentOutOfRangeException("Превышено максимальное значение числа " + _options.MaxValue);
+            _ = Numbers.Where(qw => qw < _options.MinValue) ?? throw new ArgumentOutOfRangeException("Снижено минимальное значение числа " + _options.MinValue);
+            _ = Numbers.Count() > _options.MaxArguments ? throw new ArgumentOutOfRangeException("Превышено максимальное значение количество элементов " + _options.MaxArguments) : 0;
+
+            var сachingProxy = new СachingCalcProxy(random, _options.MinPause, _options.MaxPause);
+
+            var (Total, History) = Task.Run(() => сachingProxy.GetСachingData(Numbers)).Result;
+
+            var result = new { Total, History};
+
+            return Json(result);
         }
 
         public IActionResult Number()

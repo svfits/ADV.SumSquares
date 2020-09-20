@@ -5,7 +5,6 @@
 }
 
 <h1>Сумма квадратов чисел</h1>
-
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -21,6 +20,21 @@
                 </div>
             }
         </form>
+        <div class="form-group">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Итого сумма квадратов чисел:
+                    <h5><span class="badge badge-primary badge-pill" id="total">0</span></h5>
+                </li>
+            </ul>
+        </div>
+        <div class="form-group">
+            <ul class="list-group" id="history">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    История расчетов:
+                </li>
+            </ul>
+        </div>
         <div class="form-group">
             <input type="submit" id="execute" value="Выполнить" class="btn btn-primary" />
         </div>
