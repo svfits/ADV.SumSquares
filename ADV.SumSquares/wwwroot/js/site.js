@@ -18,6 +18,7 @@
                         $('#history').append(hisHTML);
                     }
                 } catch (e) {
+                    ///конечно так не красиво делать, но все же ))
                     alert(data);
                 }
             },
