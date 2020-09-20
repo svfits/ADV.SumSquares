@@ -12,7 +12,6 @@ namespace ADV.SumSquares.BL
     /// </summary>
     public class СachingCalcProxy
     {
-        private readonly List<int> _numbers;
         private readonly Random _random;
         private readonly int _maxpause;
         private readonly int _minpause;
@@ -23,25 +22,24 @@ namespace ADV.SumSquares.BL
             CachData = new Dictionary<int, int>();
         }
 
-        public СachingCalcProxy(List<int> numbers, Random random, int minPause, int maxPause)
+        public СachingCalcProxy(Random random, int minPause, int maxPause)
         {
-            _numbers = numbers;
             _random = random;
             _maxpause = maxPause;
             _minpause = minPause;
         }
 
         /// <summary>
-        /// Получить данные из кеша
+        /// Получить данные из кеша или сгенерировать
         /// </summary>
         /// <returns></returns>
-        public int GetСachingData()
+        public int GetСachingData(List<int> numbers)
         {
-            var expectNumbers = _numbers.Except(CachData.Select(a => a.Key)).ToList();
+            var expectNumbers = numbers.Except(CachData.Select(a => a.Key)).ToList();
 
             Parallel.ForEach(expectNumbers, i => GetSqr(i));
 
-            var intersectNumbers = CachData.Where(z => _numbers.Contains(z.Key))
+            var intersectNumbers = CachData.Where(z => numbers.Contains(z.Key))
                                    .Sum(q => q.Value);
 
             return intersectNumbers;
