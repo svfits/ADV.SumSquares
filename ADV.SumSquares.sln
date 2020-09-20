@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ADV.SumSquares.BL", "ADV.Su
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ADV.SumSquares.BLTests", "ADV.SumSquares.BLTests\ADV.SumSquares.BLTests.csproj", "{38960816-2010-4AFC-B749-5D8CE7691372}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADV.SumSquares.IntegrationTest", "ADV.SumSquares.IntegrationTest\ADV.SumSquares.IntegrationTest.csproj", "{09717CBA-391D-42FA-A557-8C8374548DD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ADV.SumSquares.IntegrationTest", "ADV.SumSquares.IntegrationTest\ADV.SumSquares.IntegrationTest.csproj", "{09717CBA-391D-42FA-A557-8C8374548DD1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E3DFB68A-00FC-45C0-B6A8-4F6D574291C7}"
+	ProjectSection(SolutionItems) = preProject
+		ReadMe.txt = ReadMe.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -79,6 +79,7 @@ namespace ADV.SumSquares.Controllers
             return Json(result);
         }
 
+        [HttpGet]
         public IActionResult Number()
         {
             var numberViewModel = new NumberViewModel
