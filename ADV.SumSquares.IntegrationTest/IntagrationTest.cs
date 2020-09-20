@@ -166,7 +166,7 @@ namespace ADV.SumSquares.IntegrationTest
             driver.FindElement(By.Id("Number4")).Clear();
             driver.FindElement(By.Id("Number4")).SendKeys("4");
             driver.FindElement(By.XPath("//main/div")).Click();
-            driver.FindElement(By.Id("execute")).Click();            
+            driver.FindElement(By.Id("execute")).Click();
         }
         private bool IsElementPresent(By by)
         {
