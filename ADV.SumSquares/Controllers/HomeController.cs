@@ -54,21 +54,21 @@ namespace ADV.SumSquares.Controllers
 
             if (erMaxVal)
             {
-                RedirectToPage("Error", new ErrorViewModel() { Message = "Превышено максимальное значение числа " + _options.MaxValue });
+                return Json("Превышено максимальное значение числа " + _options.MaxValue );
             }
 
             var erMinVal = Numbers.Where(qw => qw < _options.MinValue).Count() > 0;
 
             if (erMinVal)
             {
-                RedirectToPage("Error", new ErrorViewModel() { Message = "Снижено минимальное значение числа " + _options.MinValue });
+                return Json("Меньше минимального значения числа " + _options.MinValue );
             }
 
             var erNumCount = Numbers.Count() > _options.MaxArguments;
 
             if (erNumCount)
-            {                
-                RedirectToPage("Error", new ErrorViewModel() { Message = "Превышено максимальное значение количество элементов " + _options.MaxArguments });
+            {
+                return Json("Превышено максимальное значение количество элементов " + _options.MaxArguments);
             }
 
             var сachingProxy = new СachingCalcProxy(random, _options.MinPause, _options.MaxPause);

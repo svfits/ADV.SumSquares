@@ -6,13 +6,17 @@
             type: 'POST',
             data: valueNumber,
             success: function (data) {
-                $('#total').text(data.total);
+                try {
+                    $('#total').text(data.total);
 
-                $('li[name$="historyLog"]').remove();
+                    $('li[name$="historyLog"]').remove();
 
-                for (key of data.history) {
-                    var hisHTML = '<li class="list-group-item d-flex justify-content-between align-items-center" name="historyLog" >' + key + '</li >';
-                    $('#history').append(hisHTML);
+                    for (key of data.history) {
+                        var hisHTML = '<li class="list-group-item d-flex justify-content-between align-items-center" name="historyLog" >' + key + '</li >';
+                        $('#history').append(hisHTML);
+                    }
+                } catch (e) {
+                    alert(data);
                 }
             },
             error: function (data) {

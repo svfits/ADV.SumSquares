@@ -8,18 +8,17 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+        @for (int i = 0; i < Model.ParametersOptions.MaxArguments; i++)
+        {
         <form asp-action="OperationsOfNumber" id="form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            @for (int i = 0; i < Model.ParametersOptions.MaxArguments; i++)
-            {
-                <div class="form-group">
-                    @{ var id = "Number" + i; }
-                    <input asp-for="Numbers" class="form-control" id="@id" />
-                    <span asp-validation-for="Numbers" class="text-danger"></span>
-                </div>
-            }
+            <div class="form-group">
+                @{ var id = "Number" + i; }
+                <input asp-for="Numbers" class="form-control" id="@id" />
+                <span asp-validation-for="Numbers" class="text-danger"></span>
+            </div>
         </form>
+        }
         <div class="form-group">
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
