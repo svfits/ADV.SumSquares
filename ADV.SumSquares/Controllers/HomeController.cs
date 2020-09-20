@@ -26,7 +26,7 @@ namespace ADV.SumSquares.Controllers
         }
 
         /// <summary>
-        /// Проверка числа на диапозон вхождения
+        /// Проверка числа на диапазон вхождения
         /// </summary>
         /// <param name="Numbers"></param>
         /// <returns></returns>
@@ -35,7 +35,7 @@ namespace ADV.SumSquares.Controllers
         {
             if (Numbers < _options.MinValue || Numbers > _options.MaxValue)
             {
-                return Json(false);
+                return Json($"Данное число {Numbers} не возможно использовать!.");
             }
 
             return Json(true);
@@ -50,15 +50,32 @@ namespace ADV.SumSquares.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CalculationSquares([FromForm] List<int> Numbers)
         {
-            _ = Numbers.Where(qw => qw > _options.MaxValue) ?? throw new ArgumentOutOfRangeException("Превышено максимальное значение числа " + _options.MaxValue);
-            _ = Numbers.Where(qw => qw < _options.MinValue) ?? throw new ArgumentOutOfRangeException("Снижено минимальное значение числа " + _options.MinValue);
-            _ = Numbers.Count() > _options.MaxArguments ? throw new ArgumentOutOfRangeException("Превышено максимальное значение количество элементов " + _options.MaxArguments) : 0;
+            var erMaxVal = Numbers.Where(qw => qw > _options.MaxValue).Count() > 0;
+
+            if (erMaxVal)
+            {
+                RedirectToPage("Error", new ErrorViewModel() { Message = "Превышено максимальное значение числа " + _options.MaxValue });
+            }
+
+            var erMinVal = Numbers.Where(qw => qw < _options.MinValue).Count() > 0;
+
+            if (erMinVal)
+            {
+                RedirectToPage("Error", new ErrorViewModel() { Message = "Снижено минимальное значение числа " + _options.MinValue });
+            }
+
+            var erNumCount = Numbers.Count() > _options.MaxArguments;
+
+            if (erNumCount)
+            {                
+                RedirectToPage("Error", new ErrorViewModel() { Message = "Превышено максимальное значение количество элементов " + _options.MaxArguments });
+            }
 
             var сachingProxy = new СachingCalcProxy(random, _options.MinPause, _options.MaxPause);
 
             var (Total, History) = Task.Run(() => сachingProxy.GetСachingData(Numbers)).Result;
 
-            var result = new { Total, History};
+            var result = new { Total, History };
 
             return Json(result);
         }
