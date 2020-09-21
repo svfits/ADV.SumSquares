@@ -46,11 +46,11 @@ namespace ADV.SumSquares.BL
                                   () => 0,
                                   (j, loop, subtotal) =>
                                      {
-                                         var cach = CachData.TryGetValue(j, out int ifNum);
+                                         var ifCach = CachData.TryGetValue(j, out int value);
 
-                                         if (cach)
+                                         if (ifCach)
                                          {
-                                             subtotal += ifNum;
+                                             subtotal += value;
                                              Debug.WriteLine("Есть в кеше " + subtotal);
                                          }
                                          else
@@ -82,9 +82,9 @@ namespace ADV.SumSquares.BL
 
             lock (locker)
             {
-                var cach = CachData.ContainsKey(number);
+                var ifCach = CachData.TryGetValue(number, out int value);
 
-                if (!cach)
+                if (!ifCach)
                 {
                     CachData.Add(number, sqr);
                 }
