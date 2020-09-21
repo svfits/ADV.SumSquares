@@ -50,31 +50,28 @@ namespace ADV.SumSquares.Controllers
         public IActionResult CalculationSquares(List<int> Numbers)
         {
             var erMaxVal = Numbers.Where(qw => qw > _options.MaxValue).Count() > 0;
-
             if (erMaxVal)
             {
-                return Json("Превышено максимальное значение числа " + _options.MaxValue);
+                return Json(new { Total = "", History = "", ErrorMessage = "Превышено максимальное значение числа " + _options.MaxValue });
             }
 
             var erMinVal = Numbers.Where(qw => qw < _options.MinValue).Count() > 0;
-
             if (erMinVal)
             {
-                return Json("Меньше минимального значения числа " + _options.MinValue);
+                return Json(new { Total = "", History = "", ErrorMessage = "Меньше минимального значения числа " + _options.MinValue });
             }
 
             var erNumCount = Numbers.Count() > _options.MaxArguments;
-
             if (erNumCount)
             {
-                return Json("Превышено максимальное значение количество элементов " + _options.MaxArguments);
+                return Json(new { Total = "", History = "", ErrorMessage = "Превышено максимальное значение количество элементов " + _options.MaxArguments });
             }
 
             var сachingProxy = new СachingCalcProxy(random, _options.MinPause, _options.MaxPause);
 
             var (Total, History) = Task.Run(() => сachingProxy.GetСachingData(Numbers)).Result;
 
-            var result = new { Total, History };
+            var result = new { Total, History, ErrorMessage = "" };
 
             return Json(result);
         }
