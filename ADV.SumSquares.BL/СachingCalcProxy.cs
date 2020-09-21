@@ -13,12 +13,12 @@ namespace ADV.SumSquares.BL
     /// </summary>
     public class СachingCalcProxy : IСachingCalcProxy
     {
-        private Random _random;
-        private int _maxpause;
-        private int _minpause;
+        private readonly Random _random;
+        private readonly int _maxpause;
+        private readonly int _minpause;
         private static readonly Dictionary<int, int> CachData;
         private static readonly List<string> History;
-        private static object locker = new object();
+        private readonly static object locker = new object();
 
         static СachingCalcProxy()
         {
