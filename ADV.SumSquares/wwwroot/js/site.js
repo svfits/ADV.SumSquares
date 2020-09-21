@@ -4,12 +4,12 @@
         var valueNumber = $('input[name$="Numbers"]').serializeArray();
 
         $.ajax({
-            url: 'Home/CalculationSquares',
+            url: 'Home/DataValidation',
             type: 'POST',
             data: valueNumber,
             success: function (data) {
 
-                if (data.errorMessage !== "") {
+                if (data.statusValidation === false) {
                     alert(data.errorMessage);
                     return;
                 }

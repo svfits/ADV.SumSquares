@@ -45,33 +45,53 @@ namespace ADV.SumSquares.Controllers
         /// Отправить на расчет числа 
         /// </summary>
         /// <param name="Numbers"></param>
+        /// <returns></returns>        
+        private async Task<(int Total, List<string> History)> CalculationSquaresAsync(List<int> Numbers)
+        {
+            return await Task.Run(() => _сachingCalcProxy.GetСachingData(Numbers));
+        }
+
+        /// <summary>
+        /// Проверка данных перед отправкой на расчет
+        /// </summary>
+        /// <param name="Numbers"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CalculationSquaresAsync(List<int> Numbers)
+        public IActionResult DataValidation(List<int> Numbers)
         {
             var erMaxVal = Numbers.Any(qw => qw > _options.MaxValue);
             if (erMaxVal)
             {
-                return Json(new { Total = "", History = "", ErrorMessage = "Превышено максимальное значение числа " + _options.MaxValue });
+                return Json(new
+                {
+                    StatusValidation = false,
+                    ErrorMessage = "Превышено максимальное значение числа " + _options.MaxValue
+                });
             }
 
             var erMinVal = Numbers.Any(qw => qw < _options.MinValue);
             if (erMinVal)
             {
-                return Json(new { Total = "", History = "", ErrorMessage = "Меньше минимального значения числа " + _options.MinValue });
+                return Json(new
+                {
+                    StatusValidation = false,
+                    ErrorMessage = "Меньше минимального значения числа " + _options.MinValue
+                });
             }
 
             var erNumCount = Numbers.Count() > _options.MaxArguments;
             if (erNumCount)
             {
-                return Json(new { Total = "", History = "", ErrorMessage = "Превышено максимальное значение количество элементов " + _options.MaxArguments });
+                return Json(new
+                {
+                    StatusValidation = false,
+                    ErrorMessage = "Превышено максимальное значение количество элементов " + _options.MaxArguments
+                });
             }
 
-            var (Total, History) = await Task.Run(() => _сachingCalcProxy.GetСachingData(Numbers));
+            var (Total, History) = CalculationSquaresAsync(Numbers).Result;
 
-            var result = new { Total, History, ErrorMessage = "" };
-
-            return Json(result);
+            return Json(new { StatusValidation = true, ErrorMessage = "", Total, History });
         }
 
         [HttpGet]

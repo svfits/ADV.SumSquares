@@ -31,8 +31,8 @@ namespace ADV.SumSquares
         {
             services.Configure<ParametersOptions>(Configuration.GetSection(ParametersOptions.Parameters));
 
-            var config = (ParametersOptions)Configuration.GetSection(ParametersOptions.Parameters);
-            services.AddSingleton<IÑachingCalcProxy>(new ÑachingCalcProxy(_random, config.MinPause, config.MaxPause));
+            var confParams = Configuration.GetSection(ParametersOptions.Parameters).Get<ParametersOptions>();
+            services.AddSingleton<IÑachingCalcProxy>(new ÑachingCalcProxy(_random, confParams.MinPause, confParams.MaxPause));
 
             services.AddControllersWithViews();
         }
