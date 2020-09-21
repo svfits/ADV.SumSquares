@@ -11,7 +11,7 @@ namespace ADV.SumSquares.BL
     /// <summary>
     /// Класс для кеширования и выдачи результатов расчетов
     /// </summary>
-    public class СachingCalcProxy
+    public class СachingCalcProxy : IСachingCalcProxy
     {
         private Random _random;
         private int _maxpause;
@@ -46,10 +46,11 @@ namespace ADV.SumSquares.BL
                                   () => 0,
                                   (j, loop, subtotal) =>
                                      {
-                                         var cach = CachData.ContainsKey(j);
+                                         var cach = CachData.TryGetValue(j, out int ifNum);
+
                                          if (cach)
                                          {
-                                             subtotal += CachData[j];
+                                             subtotal += ifNum;
                                              Debug.WriteLine("Есть в кеше " + subtotal);
                                          }
                                          else

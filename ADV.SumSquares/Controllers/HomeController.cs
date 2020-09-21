@@ -17,12 +17,12 @@ namespace ADV.SumSquares.Controllers
     public class HomeController : Controller
     {
         private readonly ParametersOptions _options;
+        private readonly IСachingCalcProxy _сachingCalcProxy;
 
-        private readonly Random random = new Random();
-
-        public HomeController(IOptions<ParametersOptions> options)
+        public HomeController(IOptions<ParametersOptions> options, IСachingCalcProxy сachingCalcProxy)
         {
             _options = options.Value;
+            _сachingCalcProxy = сachingCalcProxy;
         }
 
         /// <summary>
@@ -47,15 +47,15 @@ namespace ADV.SumSquares.Controllers
         /// <param name="Numbers"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult CalculationSquares(List<int> Numbers)
+        public async Task<IActionResult> CalculationSquaresAsync(List<int> Numbers)
         {
-            var erMaxVal = Numbers.Where(qw => qw > _options.MaxValue).Count() > 0;
+            var erMaxVal = Numbers.Any(qw => qw > _options.MaxValue);
             if (erMaxVal)
             {
                 return Json(new { Total = "", History = "", ErrorMessage = "Превышено максимальное значение числа " + _options.MaxValue });
             }
 
-            var erMinVal = Numbers.Where(qw => qw < _options.MinValue).Count() > 0;
+            var erMinVal = Numbers.Any(qw => qw < _options.MinValue);
             if (erMinVal)
             {
                 return Json(new { Total = "", History = "", ErrorMessage = "Меньше минимального значения числа " + _options.MinValue });
@@ -67,9 +67,7 @@ namespace ADV.SumSquares.Controllers
                 return Json(new { Total = "", History = "", ErrorMessage = "Превышено максимальное значение количество элементов " + _options.MaxArguments });
             }
 
-            var сachingProxy = new СachingCalcProxy(random, _options.MinPause, _options.MaxPause);
-
-            var (Total, History) = Task.Run(() => сachingProxy.GetСachingData(Numbers)).Result;
+            var (Total, History) = await Task.Run(() => _сachingCalcProxy.GetСachingData(Numbers));
 
             var result = new { Total, History, ErrorMessage = "" };
 

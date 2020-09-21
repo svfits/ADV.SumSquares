@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using ADV.SumSquares.BL;
 using ADV.SumSquares.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,9 +16,12 @@ namespace ADV.SumSquares
 {
     public class Startup
     {
+        private readonly Random _random;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            _random = new Random();
         }
 
         public IConfiguration Configuration { get; }
@@ -26,6 +30,9 @@ namespace ADV.SumSquares
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ParametersOptions>(Configuration.GetSection(ParametersOptions.Parameters));
+
+            var config = (ParametersOptions)Configuration.GetSection(ParametersOptions.Parameters);
+            services.AddSingleton<IÑachingCalcProxy>(new ÑachingCalcProxy(_random, config.MinPause, config.MaxPause));
 
             services.AddControllersWithViews();
         }
