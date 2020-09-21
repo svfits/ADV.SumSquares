@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -16,13 +17,12 @@ namespace ADV.SumSquares.BL
         private readonly Random _random;
         private readonly int _maxpause;
         private readonly int _minpause;
-        private static readonly Dictionary<int, int> CachData;
+        private static readonly ConcurrentDictionary<int, int> CachData;
         private static readonly List<string> History;
-        private readonly static object locker = new object();
 
         static СachingCalcProxy()
         {
-            CachData = new Dictionary<int, int>();
+            CachData = new ConcurrentDictionary<int, int>();
             History = new List<string>();
         }
 
@@ -80,15 +80,7 @@ namespace ADV.SumSquares.BL
             Thread.Sleep(pause);
             var sqr = number * number;
 
-            lock (locker)
-            {
-                var ifCach = CachData.TryGetValue(number, out int value);
-
-                if (!ifCach)
-                {
-                    CachData.Add(number, sqr);
-                }
-            }
+            CachData.TryAdd(number, sqr);
 
             return sqr;
         }
