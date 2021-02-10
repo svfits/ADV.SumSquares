@@ -1,8 +1,11 @@
 using System;
+using ADV.Model.EF;
 using ADV.SumSquares.BL;
+using ADV.SumSquares.BL.Interfaces;
 using ADV.SumSquares.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +31,11 @@ namespace ADV.SumSquares
 
             var confParams = Configuration.GetSection(ParametersOptions.Parameters).Get<ParametersOptions>();
             services.AddSingleton<IÑachingCalcProxy>(new ÑachingCalcProxy(_random, confParams.MinPause, confParams.MaxPause));
+
+            services.AddDbContext<DataContextApp>(options => options.UseInMemoryDatabase("DBName"));
+
+            //services.AddTransient<IBalance>();
+            //services.AddTransient<IDeliveryGoods>();
 
             services.AddControllersWithViews();
         }

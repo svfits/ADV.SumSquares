@@ -54,6 +54,9 @@ namespace ADV.SumSquares.IntegrationTest
         public void TheUntitledTestCaseTest()
         {
             driver.Navigate().GoToUrl("http://localhost:5000/");
+
+            System.Threading.Thread.Sleep(5000);
+
             driver.FindElement(By.Id("Number0")).Click();
             driver.FindElement(By.XPath("//body")).Click();
             driver.FindElement(By.Id("Number0")).Clear();
