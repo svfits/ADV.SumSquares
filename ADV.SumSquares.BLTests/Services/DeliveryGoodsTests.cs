@@ -16,30 +16,60 @@ namespace ADV.SumSquares.BL.Services.Tests
     [TestClass()]
     public class DeliveryGoodsTests
     {
-        [TestMethod()]
-        public void DeliveryAgeTest()
+        private DataContextApp db;
+        private Fixture fixture;
+
+        [TestInitialize]
+        public void Init()
         {
             var options = new DbContextOptionsBuilder<DataContextApp>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-            .Options;
+          .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+          .Options;
 
-            var db = new DataContextApp(options);
+            db = new DataContextApp(options);
 
-            var fixture = new Fixture();
+            fixture = new Fixture();
+        }
 
+        [TestMethod("Проверка продажи до 18 лет")]
+        public void DeliveryAgeTest()
+        {        
             var users = fixture.Create<User>();
 
             db.User.Add(users);
             db.SaveChanges();
 
-            users.IdUser = 11;
-
             var mock = new Mock<IBalance>();
-
             mock.Setup(d => d.GetBalance()).Returns(123);
 
-            DeliveryGoods deliveryGoods = new DeliveryGoods(db, mock.Object);
-            deliveryGoods.DeliveryAge(users.IdUser);
+            var deliveryGoods = new DeliveryGoods(db, mock.Object);
+            var delivery = deliveryGoods.DeliveryAge(users.IdUser);
+
+            Assert.IsTrue(delivery);
+        }
+
+        [TestMethod("Можно ли продать товар - положительно")]
+        public void PaymentTest()
+        {
+            var mock = new Mock<IBalance>();
+            mock.Setup(d => d.GetBalance()).Returns(123);
+
+            var deliveryGoods = new DeliveryGoods(db, mock.Object);
+            var pay = deliveryGoods.Payment(34);
+
+            Assert.IsTrue(pay);
+        }
+
+        [TestMethod("Можно ли продать товар - отрицательно")]
+        public void PaymentTest_Fail()
+        {
+            var mock = new Mock<IBalance>();
+            mock.Setup(d => d.GetBalance()).Returns(12);
+
+            var deliveryGoods = new DeliveryGoods(db, mock.Object);
+            var pay = deliveryGoods.Payment(34);
+
+            Assert.IsFalse(pay);
         }
     }
 }

@@ -30,21 +30,18 @@ namespace ADV.SumSquares.BL.Services
             }
 
             throw new NotAgeOrderExceptions("Данный товар не может продан данному лицу");
-        }
+        }       
 
         public bool Payment(int summa)
         {
-            if(balance.GetBalance() > summa)
+            var bal = balance.GetBalance();
+
+            if (bal > summa)
             {
                 return true;
             }
 
             return false;
-        }
-
-        public bool Payment()
-        {
-            throw new NotImplementedException();
         }
     }
 }

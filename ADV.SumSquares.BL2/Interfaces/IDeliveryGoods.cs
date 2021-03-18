@@ -9,6 +9,6 @@ namespace ADV.SumSquares.BL.Interfaces
     {
         bool DeliveryAge(int IdUser);
 
-        bool Payment();
+        bool Payment(int summa);
     }
 }
