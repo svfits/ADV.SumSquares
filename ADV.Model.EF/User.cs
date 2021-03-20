@@ -16,5 +16,7 @@ namespace ADV.Model.EF
 
         [Display(Name = "Возраст")]
         public int Age { get; set; }
+
+        public Sex Sex { get; set; }
     }    
 }

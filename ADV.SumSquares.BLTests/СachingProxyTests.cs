@@ -24,7 +24,7 @@ namespace ADV.SumSquares.BL.Tests
         [TestMethod("Получение данных из 'Холодного кеша'")]
         public void GetСachingData_СoldData_Test()
         {
-            Stopwatch stopWatch = new Stopwatch();
+            var stopWatch = new Stopwatch();
             stopWatch.Start();
             var (Total, History) = сachingProxy.GetСachingData(NumbersMock);
             stopWatch.Stop();
@@ -41,7 +41,7 @@ namespace ADV.SumSquares.BL.Tests
         {
             сachingProxy.GetСachingData(NumbersMock);
 
-            Stopwatch stopWatch = new Stopwatch();
+            var stopWatch = new Stopwatch();
             stopWatch.Start();
 
             var (Total, History) = сachingProxy.GetСachingData(NumbersMock);
@@ -61,7 +61,7 @@ namespace ADV.SumSquares.BL.Tests
             var numberMock = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
             сachingProxy.GetСachingData(NumbersMock);
 
-            Stopwatch stopWatch = new Stopwatch();
+            var stopWatch = new Stopwatch();
             stopWatch.Start();
 
             var (Total, History) = сachingProxy.GetСachingData(numberMock);

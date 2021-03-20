@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using ADV.SumSquares.BL.Interfaces;
 using AutoFixture;
+using ADV.SumSquares.BL.Exceptions;
 
 namespace ADV.SumSquares.BL.Services.Tests
 {
@@ -32,9 +33,12 @@ namespace ADV.SumSquares.BL.Services.Tests
         }
 
         [TestMethod("Проверка продажи до 18 лет")]
+        [ExpectedException(typeof(NotAgeOrderExceptions))]
         public void DeliveryAgeTest()
-        {        
-            var users = fixture.Create<User>();
+        {
+            //var users = fixture.Create<User>();
+            //users.Age = 11;
+            var users = fixture.Build<User>().With(f => f.Age, 12).Without(h => h.Age).Create();
 
             db.User.Add(users);
             db.SaveChanges();

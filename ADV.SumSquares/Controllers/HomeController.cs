@@ -79,7 +79,7 @@ namespace ADV.SumSquares.Controllers
                 });
             }
 
-            var erNumCount = Numbers.Count() > _options.MaxArguments;
+            var erNumCount = Numbers.Count > _options.MaxArguments;
             if (erNumCount)
             {
                 return Json(new
